@@ -448,7 +448,18 @@ abstract class Zend_Pdf_FileParser
         if ($characterSet == 'MacRoman') {
             return $bytes;
         }
-        return iconv('MacRoman', $characterSet, $bytes);
+        if ($characterSet == 'MACINTOSH') {
+            return $bytes;
+        }
+        
+        try
+        {
+            return iconv('MACINTOSH', $characterSet, $bytes);
+        }
+        catch(Exception $exc)
+        {
+            return iconv('MacRoman', $characterSet, $bytes);
+        }
     }
 
     /**
